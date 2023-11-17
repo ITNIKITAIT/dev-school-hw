@@ -1,0 +1,1 @@
+select Count(*) from payment where amount > 3

@@ -1,0 +1,1 @@
+INSERT INTO "MY_TABLE"(count) VALUES (378);

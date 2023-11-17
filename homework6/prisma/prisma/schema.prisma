@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// one-to-one
+model Person {
+  id               Int      @id @default(autoincrement())
+  first_name       String 
+  second_name      String
+  passport_number  Passport?
+}
+
+model Passport {
+  id                  Int      @id @default(autoincrement())
+  passport_number     String?  @unique 
+  expiration_date     DateTime
+  person              Person?   @relation(fields: [person_id], references: [id])
+  person_id           Int @unique
+}
+
+//one to many
+model Employee {
+  id          Int @id @default(autoincrement())
+  first_name  String
+  second_name String
+  company_id  Int
+  company     Company @relation(fields: [company_id], references: [id])
+}
+
+model Company {
+  id              Int @id @default(autoincrement())
+  name            String
+  employees       Employee[]
+}
+
+// many to many
+model Student {
+  id           Int @id @default(autoincrement())
+  first_name   String
+  second_name  String
+  subjects     String[]
+  teachers     StudentsTeachers[] 
+}
+
+model Teacher {
+  id           Int @id @default(autoincrement())
+  first_name   String
+  second_name  String
+  subject      String
+  students     StudentsTeachers[]
+}
+
+model StudentsTeachers {
+  id          Int @id @default(autoincrement())
+  teacher     Teacher @relation(fields: [teacher_id], references: [id])
+  teacher_id  Int
+  student     Student @relation(fields: [student_id], references: [id])
+  student_id  Int
+}
