@@ -32,12 +32,7 @@ app.patch('/employees/:employeeId', async (req, res) => {
       where: {
         id: employeeid
       },
-      data: {
-        firstName: UpdateEmployee.firstName,
-        lastName: UpdateEmployee.lastName,
-        middleName: UpdateEmployee.middleName,
-        position: UpdateEmployee.position
-        }
+      data: UpdateEmployee
       })
       console.log(UpdateEmployee)
       res.json(UpdateEmployee);
@@ -53,16 +48,11 @@ app.get('/products', async (req, res) => {
 })
 app.post('/products', async (req, res) => {
   try {
-    const NewUser = req.body
+    const NewProduct = req.body
     await prisma.products.create({
-    data: {
-      name: NewUser.name,
-      category: NewUser.category,
-      amount: NewUser.amount,
-      price: NewUser.price
-      }
+    data: NewProduct
     })
-    res.json(NewUser);
+    res.json(NewProduct);
   }
   catch(error) {
     res.json(error);
